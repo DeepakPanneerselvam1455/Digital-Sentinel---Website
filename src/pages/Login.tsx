@@ -5,8 +5,8 @@ import { Shield, Lock, Eye, EyeOff } from 'lucide-react';
 import { motion } from 'motion/react';
 
 export default function Login() {
-  const [username, setUsername] = useState('Admin@police.com');
-  const [password, setPassword] = useState('Police@100');
+  const [username, setUsername] = useState('');
+  const [password, setPassword] = useState('');
   const [showPassword, setShowPassword] = useState(false);
   const [error, setError] = useState('');
   const [loading, setLoading] = useState(false);
