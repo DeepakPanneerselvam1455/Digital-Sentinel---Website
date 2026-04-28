@@ -1,0 +1,49 @@
+@import url('https://fonts.googleapis.com/css2?family=Public+Sans:wght@400;600;700;800;900&family=Inter:wght@400;500;600;700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap');
+@import "tailwindcss";
+
+@theme {
+  --font-sans: "Inter", ui-sans-serif, system-ui, sans-serif;
+  --font-headline: "Public Sans", sans-serif;
+  
+  --color-primary-sentinel: #00236f;
+  --color-primary-sentinel-dark: #1E3A8A;
+  --color-secondary-sentinel: #006b5f;
+  --color-error-sentinel: #ba1a1a;
+  --color-bg-sentinel: #f8f9ff;
+  --color-sidebar-sentinel: #eff4ff;
+}
+
+@layer base {
+  body {
+    @apply bg-bg-sentinel font-sans text-slate-900 antialiased;
+  }
+}
+
+.material-symbols-outlined {
+  font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+  vertical-align: middle;
+}
+
+.glass-badge {
+  background: rgba(255, 255, 255, 0.7);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(197, 197, 211, 0.2);
+}
+
+.primary-gradient {
+  background: linear-gradient(135deg, #00236f 0%, #1e3a8a 100%);
+}
+
+.custom-scrollbar::-webkit-scrollbar {
+  width: 4px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-track {
+  @apply bg-transparent;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  @apply bg-slate-300 rounded-full;
+}

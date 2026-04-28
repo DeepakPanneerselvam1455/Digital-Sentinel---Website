@@ -1,0 +1,6 @@
+{
+  "name": "Digital Sentinel",
+  "description": "Police Command Center Dashboard for crime reporting, SOS alerts, and staff management.",
+  "requestFramePermissions": ["geolocation"],
+  "majorCapabilities": ["data-visualization", "real-time-updates"]
+}
