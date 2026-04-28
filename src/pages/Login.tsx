@@ -16,13 +16,20 @@ export default function Login() {
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setError('');
+    
+    // Strict credential check as requested
+    if (username !== 'Admin@police.com' || password !== 'Police@100') {
+      setError('Invalid Credentials. Access restricted to authorized personnel only.');
+      return;
+    }
+
     setLoading(true);
     
     const success = await login({ username, password });
     if (success) {
       navigate('/dashboard');
     } else {
-      setError('Invalid username or password');
+      setError('System Authentication Failure. Contact Administrator.');
       setLoading(false);
     }
   };

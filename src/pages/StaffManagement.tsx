@@ -10,6 +10,7 @@ import {
   Activity,
   CheckCircle2,
   Circle,
+  Clock,
   X,
   BadgeInfo
 } from 'lucide-react';
@@ -281,9 +282,13 @@ export default function StaffManagement() {
                     <td className="px-8 py-6">
                       <div className={cn(
                         "flex items-center gap-2 px-3 py-1 rounded-full text-[10px] font-black uppercase tracking-wider border w-fit",
-                        p.status === 'Active' ? "border-teal-100 bg-teal-50 text-teal-600" : "border-slate-100 bg-slate-50 text-slate-500"
+                        p.status === 'Active' ? "border-teal-100 bg-teal-50 text-teal-600" : 
+                        p.status === 'On Leave' ? "border-amber-100 bg-amber-50 text-amber-600" :
+                        "border-slate-100 bg-slate-50 text-slate-500"
                       )}>
-                        {p.status === 'Active' ? <Activity size={12} /> : <Circle size={12} />}
+                        {p.status === 'Active' ? <Activity size={12} /> : 
+                         p.status === 'On Leave' ? <Clock size={12} /> :
+                         <Circle size={12} />}
                         {p.status}
                       </div>
                     </td>

@@ -48,10 +48,17 @@ export default function SOSAlerts() {
     fetchAlerts();
   }, []);
 
+  const [confirmDispatchId, setConfirmDispatchId] = useState<{ id: string, reporter: string, location: string } | null>(null);
+
   const handleDispatch = (id: string, reporter: string) => {
     storage.update<SOSAlert>('sentinel_sos', id, { status: 'Unit Dispatched' });
     showToast(`Unit dispatched to ${reporter}'s sector`, 'success');
     fetchAlerts();
+    setConfirmDispatchId(null);
+  };
+
+  const initiateDispatch = (id: string, reporter: string, location: string) => {
+    setConfirmDispatchId({ id, reporter, location });
   };
 
   const handleCall = (reporter: string) => {
@@ -96,8 +103,8 @@ export default function SOSAlerts() {
               animate={{ opacity: 1, scale: 1 }}
               transition={{ delay: i * 0.1 }}
               className={cn(
-                "group p-1 rounded-[2.5rem] relative overflow-hidden transition-all hover:scale-[1.02]",
-                alert.priority === 'Critical' ? "bg-red-500 shadow-xl shadow-red-200" : "bg-slate-200"
+                "group p-1 rounded-[2.5rem] relative transition-all hover:scale-[1.02]",
+                alert.priority === 'Critical' ? "bg-red-500 shadow-[0_0_30px_rgba(239,68,68,0.4)] animate-pulse" : "bg-slate-200"
               )}
             >
               <div className="bg-white rounded-[2.3rem] p-6 h-full flex flex-col gap-6">
@@ -138,7 +145,7 @@ export default function SOSAlerts() {
                 <div className="flex gap-2">
                   <button 
                     disabled={alert.status === 'Unit Dispatched'}
-                    onClick={() => handleDispatch(alert.id, alert.reporter)}
+                    onClick={() => initiateDispatch(alert.id, alert.reporter, alert.location)}
                     className="flex-1 py-3 bg-primary-sentinel text-white rounded-2xl text-[11px] font-black uppercase tracking-widest flex items-center justify-center gap-2 hover:bg-primary-sentinel-dark transition-all disabled:opacity-50 disabled:cursor-not-allowed"
                   >
                     <Navigation size={14} />
@@ -172,6 +179,39 @@ export default function SOSAlerts() {
           Initialize Full Secure Protocol
         </button>
       </div>
+      {/* Confirmation Modal */}
+      {confirmDispatchId && (
+        <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-slate-900/60 backdrop-blur-sm">
+          <motion.div 
+            initial={{ opacity: 0, scale: 0.9, y: 20 }}
+            animate={{ opacity: 1, scale: 1, y: 0 }}
+            className="w-full max-w-md bg-white rounded-[2.5rem] p-8 shadow-2xl"
+          >
+            <div className="w-16 h-16 bg-blue-100 text-primary-sentinel rounded-2xl flex items-center justify-center mb-6">
+              <Navigation size={32} />
+            </div>
+            <h3 className="text-2xl font-black font-headline text-slate-900 mb-2">Confirm Dispatch</h3>
+            <p className="text-slate-500 mb-6 leading-relaxed">
+              Are you sure you want to deploy an emergency response unit to <span className="font-bold text-slate-900">{confirmDispatchId.location}</span> for <span className="font-bold text-slate-900">{confirmDispatchId.reporter}</span>?
+            </p>
+            
+            <div className="flex gap-4">
+              <button 
+                onClick={() => setConfirmDispatchId(null)}
+                className="flex-1 py-4 border-2 border-slate-100 text-slate-400 rounded-2xl text-xs font-black uppercase tracking-widest hover:bg-slate-50 transition-all hover:text-slate-600"
+              >
+                Cancel
+              </button>
+              <button 
+                onClick={() => handleDispatch(confirmDispatchId.id, confirmDispatchId.reporter)}
+                className="flex-1 py-4 bg-primary-sentinel text-white rounded-2xl text-xs font-black uppercase tracking-widest hover:bg-primary-sentinel-dark shadow-xl shadow-blue-200 transition-all scale-105 active:scale-95"
+              >
+                Confirm Dispatch
+              </button>
+            </div>
+          </motion.div>
+        </div>
+      )}
     </div>
   );
 }
